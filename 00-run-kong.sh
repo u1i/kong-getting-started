@@ -5,7 +5,7 @@ docker run -d --name kong-database \
                 -e "POSTGRES_PASSWORD=kong" \
                 postgres:9.6
 
-sleep 2
+sleep 10
 
 docker run --rm \
     --link kong-database:kong-database \
@@ -16,7 +16,7 @@ docker run --rm \
     -e "KONG_CASSANDRA_CONTACT_POINTS=kong-database" \
     kong kong migrations bootstrap
 
-sleep 2
+sleep 5
 
 docker run -d --name kong \
     --link kong-database:kong-database \
@@ -34,3 +34,7 @@ docker run -d --name kong \
     -p 8001:8001 \
     -p 8444:8444 \
     kong
+
+sleep 2
+
+docker run -d --name kong-admin-ui -p 8080:80 pocketdigi/kong-admin-ui:0.5.2
